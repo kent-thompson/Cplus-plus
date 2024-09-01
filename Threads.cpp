@@ -59,6 +59,7 @@ void TaskOne( ThreadData& data ) {
 
 void TaskTwo( ThreadData& data ) {
 	data.state = State::Started;
+	
 	const auto start = std::chrono::high_resolution_clock::now();
 	std::this_thread::sleep_for(1000ms);
 
