@@ -54,8 +54,7 @@ void TaskOne( ThreadData& data ) {
 	data.elapsed = diff.count();
 
 	data.state = State::Done;
- }
-
+}
 
 void TaskTwo( ThreadData& data ) {
 	data.state = State::Started;
@@ -74,11 +73,10 @@ void TaskTwo( ThreadData& data ) {
 	data.elapsed = diff.count();
 
 	data.state = State::Done;
-	}
+}
 
 
 int main() {
-
 	ThreadData oneData;
 	std::thread t1( TaskOne, std::ref(oneData) );
 	t1.detach();	// TRULY ASYNCRONOUS and independent
