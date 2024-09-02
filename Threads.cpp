@@ -3,7 +3,7 @@
 // Author      : Kent Thompson
 // Version     :
 // Copyright   : Your copyright notice
-// Description : shows Truly asynchronous threads working as they would be if running/monitoring on machines
+// Description : shows Truly asynchronous threads working as they would be if running/monitoring on machines, or seperate processes
 //				 or separate processes that are not synchronous
 // Build		: g++ -std=c++17 -O0 -g3 -Wall -c -fmessage-length=0 -fsanitize=thread -MMD -MP -MF"src/Threads.d" -MT"src/Threads.o" -o "src/Threads.o" "../src/Threads.cpp"
 //============================================================================
