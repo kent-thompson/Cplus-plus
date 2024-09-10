@@ -20,14 +20,14 @@ using namespace std::chrono_literals;
 using std::cout; using std::endl; using std::string; // does NOT pollute global namespace and reduces the non-informational "sea of "std" prefixes
 
 enum struct State { Error = -1, None, Ready, Paused, Started, Running, Milestone, Done, Complete };
+std::mutex gLock;
+int gTCounter = 0;			// thread counter
+
 struct ThreadData {
 	std::atomic<State> state;
 	std::atomic<double> elapsed;
 	std::stringstream msg;	// cannot be atomic
 };
-
-std::mutex gLock;
-int gTCounter = 0;			// thread counter
 
 void coutMsg( ThreadData& data ) {	// because std::stringstream cannot be atomic
 	gLock.lock();
