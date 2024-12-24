@@ -116,13 +116,13 @@ public:
     ushort curMcCount, curCarCount, curVanCount = 0;
 
     public:
-    ushort spotsAvailable() {
+    int spotsAvailable() {
         return max_spots - (curMcCount + curCarCount + (curVanCount * 3));
     }
 
     ushort getTotalSpots() { return max_spots; }
     bool isEmpty() { return spots.size() == 0 ? true : false; }
-    bool isFull() { return spots.size() == max_spots ? true : false; }
+    bool isFull() { return spotsAvailable() < 1 ? true : false; }
 
     void printSpotsMetrics() {
     cout << "Number of Motorcycles: " << curMcCount << endl;
@@ -132,6 +132,11 @@ public:
 
     bool parkVehicle( std::shared_ptr<Vehicle> pv ) {  
         bool flag = false;
+        if( isFull() ) {
+            cout << "Parking Lot Full" << endl;
+            return flag;
+         }
+
         ParkingSpot sp( pv );
         switch( pv->getType() ) {
         case vehicleType::Van:
