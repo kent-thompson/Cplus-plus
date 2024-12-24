@@ -20,16 +20,15 @@ public:
 
 protected:
     vehicleType type;
-    short spotsNeeded;
+    ushort spotsNeeded;
     std::string label;
 
 public:
-    virtual int getSpotsNeeded() { return spotsNeeded; }
+    virtual ushort getSpotsNeeded() { return spotsNeeded; }
     virtual vehicleType getType() { return type; }
     virtual std::string& getLabel() { return label; }
 
 };//Vehicle
-
 
 class Van : public Vehicle {
 public:
@@ -79,7 +78,7 @@ public:
   ushort getSpotNbr() { return spotNbr; }
   vehicleType getType() { return type; }
 
-  void setData(  int spotNbr_, vehicleType vt ) {
+  void setData(  ushort spotNbr_, vehicleType vt ) {
     spotNbr = spotNbr_;
     type = vt;
   }
@@ -89,8 +88,7 @@ public:
     std::string& getLabel() { return mpVehicle->getLabel(); }
     bool canFitInSpot() { return mpVehicle->getSpotsNeeded() == spotsNeeded( mpVehicle->getType() ); } 
 
-
-    short spotsNeeded( vehicleType vt ) {   // code review fodder :)
+    ushort spotsNeeded( vehicleType vt ) {   // code review fodder :)
         switch( vt ) {
         case vehicleType::Van:
             return 3;
@@ -115,14 +113,14 @@ public:
     const ushort max_car_spots = 10;
     const ushort max_van_spots = 3; // * 3
     std::vector<ParkingSpot> spots;
-    short curMcCount, curCarCount, curVanCount = 0;
+    ushort curMcCount, curCarCount, curVanCount = 0;
 
     public:
-    short spotsAvailable() {
+    ushort spotsAvailable() {
         return max_spots - (curMcCount + curCarCount + (curVanCount * 3));
     }
 
-    short getTotalSpots() { return max_spots; }
+    ushort getTotalSpots() { return max_spots; }
     bool isEmpty() { return spots.size() == 0 ? true : false; }
     bool isFull() { return spots.size() == max_spots ? true : false; }
 
@@ -176,7 +174,7 @@ int main()
     cout << "Spots Avaiable: " << parkingLot.spotsAvailable() << endl;
     cout << "Is Parking Lot Empty? " << parkingLot.isEmpty() << endl;
 
-// Interesting below, eh? To Support Polymorphism. TODO: Could make a Class Factory (a Vehicle Factory, Ha!) where you pass in a vehicleType and get the correct pointer back.
+    // Interesting below, eh? To Support Polymorphism. TODO: Could make a Class Factory (a Vehicle Factory, Ha!) where you pass in a vehicleType and get the correct pointer back.
     shared_ptr<Vehicle> mc1 = make_shared<Motorcycle>();
     parkingLot.parkVehicle( mc1 );
 
@@ -194,6 +192,7 @@ int main()
     cout << "Spots Avaiable: " << parkingLot.spotsAvailable() << endl;
     cout << "Is Parking Lot Empty? " << parkingLot.isEmpty() << endl;
     cout << "Is Parking Lot Full? " << parkingLot.isFull() << endl;
+
     parkingLot.printInfo();
 
     return 0;
