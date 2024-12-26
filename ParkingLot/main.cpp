@@ -125,9 +125,9 @@ public:
     bool isFull() { return spotsAvailable() < 1 ? true : false; }
 
     void printSpotsMetrics() {
-    cout << "Number of Motorcycles: " << curMcCount << endl;
-    cout << "Number of Cars: " << curCarCount << endl;
-    cout << "Number of Vans: " << curVanCount << endl;  
+        cout << "Number of Motorcycles: " << curMcCount << endl;
+        cout << "Number of Cars: " << curCarCount << endl;
+        cout << "Number of Vans: " << curVanCount << endl;  
     }
 
     bool parkVehicle( std::shared_ptr<Vehicle> pv ) {  
