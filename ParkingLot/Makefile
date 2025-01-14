@@ -1,5 +1,5 @@
 CC := g++
-CFLAGS = -std=c++17 -g -Wall -Werror -Wextra -pedantic -fsanitize=address
+CFLAGS = -std=c++17 -g -O0 -Wall -Werror -Wextra -pedantic -fsanitize=address
 LDFLAGS =
 TARGET = maintest
 SRCS   = main.cpp

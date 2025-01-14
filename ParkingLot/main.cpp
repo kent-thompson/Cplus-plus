@@ -11,8 +11,9 @@ using namespace std; // only ever used in examples
 enum struct vehicleType { Motorcycle, Car, Van };
 class ParkingSpot;  // forward declaration
 
+//Vehicle  base class and 3 derived classes, Van, Car, Mototcycle
 //--------------------
-class Vehicle       //  base class
+class Vehicle   //  base class
 {
 public:
     Vehicle() {};
@@ -130,6 +131,7 @@ public:
         cout << "Number of Vans: " << curVanCount << endl;  
     }
 
+    // use spots
     bool parkVehicle( std::shared_ptr<Vehicle> pv ) {  
         bool flag = false;
         if( isFull() ) {
@@ -179,7 +181,8 @@ int main()
     cout << "Spots Avaiable: " << parkingLot.spotsAvailable() << endl;
     cout << "Is Parking Lot Empty? " << parkingLot.isEmpty() << endl;
 
-    // Interesting below, eh? To Support Polymorphism. TODO: Could make a Class Factory (a Vehicle Factory, Ha!) where you pass in a vehicleType and get the correct pointer back.
+    // Interesting below, to support Polymorphism with shared_ptrs.
+    // TODO: Could make a Class Factory (a Vehicle Factory, Ha!) where a vehicleType is passed in and the correct pointer is returned
     shared_ptr<Vehicle> mc1 = make_shared<Motorcycle>();
     parkingLot.parkVehicle( mc1 );
 
@@ -199,6 +202,7 @@ int main()
     cout << "Is Parking Lot Full? " << parkingLot.isFull() << endl;
 
     parkingLot.printInfo();
+    //cout << "DONE##" << endl;
 
     return 0;
 }
