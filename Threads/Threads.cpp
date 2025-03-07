@@ -4,7 +4,7 @@
 // Version     :
 // Description : shows Truly asynchronous threads working as they would be if running/monitoring on machines
 //				 or separate processes that are not synchronous
-// Build		:  g++ -std=c++17 -O0 -g3 -Wall -fmessage-length=0 -fsanitize=thread  -o Threads  Threads.cpp
+// Build		: make 
 //============================================================================
 #include <iostream>       // std::cout, std::endl
 #include <thread>         // std::this_thread::sleep_for
@@ -17,7 +17,7 @@
 #include <vector>
 
 using namespace std::chrono_literals;
-using std::cout; using std::endl; //using std::string; // does NOT pollute global namespace and stops the useless non-informationial "sea of "stds" prefixes
+using std::cout; using std::endl; // does NOT pollute global namespace and reduces the non-informationial "sea of "std" prefixes
 
 enum struct State { Error = -1, None, Ready, Paused, Started, Running, Milestone, Done, Complete };
 std::mutex gLock;
@@ -54,7 +54,7 @@ void TaskOne( ThreadData& data ) {
 	data.state = State::Done;
  }
 
-
+//worker thread / task
 void TaskTwo( ThreadData& data ) {
 	data.state = State::Started;
 	const auto start = std::chrono::high_resolution_clock::now();
@@ -73,8 +73,9 @@ void TaskTwo( ThreadData& data ) {
 }
 	
 
-int main() {
-    //-- instantiate threads with tasks and data
+//-- instantiate threads with tasks and data
+int main() 
+{
 	ThreadData oneData;
     	std::thread t1( TaskOne, std::ref(oneData) );
     oneData.Id = t1.get_id();   // could also be inside task
