@@ -39,7 +39,7 @@ public:
 class Car : public Vehicle {
 public:
    Car() {
-    spotsNeeded = 1;
+    spotsNeeded = 2;
     type = vehicleType::Car;
         label = "Car";
   }

@@ -1,7 +1,7 @@
-CC := g++
-CFLAGS = -std=c++17 -g -O0 -Wall -Werror -Wextra -pedantic -fsanitize=address
+CXX := g++
+CXXFLAGS = -std=c++17 -MD -g -O0 -Wall -Werror -Wextra -pedantic -fsanitize=address
 LDFLAGS =
-TARGET = program
+TARGET = RunMe
 SRCS   = main.cpp
 OBJECTS = $(SRCS:.cpp=.o)
 DEPS = $(SRCS:.cpp=.depends)
@@ -9,15 +9,15 @@ DEPS = $(SRCS:.cpp=.depends)
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) -o $(TARGET)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(OBJECTS) -o $(TARGET)
 
 .cpp.o:
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-%.depends: %.c
-	$(CC) -MMD $(CFLAGS) $< > $@
+%.depends: %.cpp
+	$(CXX) $(CXXFLAGS) $< > $@
 
 clean:
-	rm -f $(OBJECTS) $(DEPS) $(TARGET)
+	rm -f $(OBJECTS) $(DEPS) $(TARGET) *.d *.out RunMe
 
 -include $(DEPS)
