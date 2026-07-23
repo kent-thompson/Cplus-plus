@@ -2,4 +2,4 @@
 
 Note: Motorcycles take One (1) spot, Cars take Two (2) spots, and Vans take three (3) spots.
 
-**Threads** is a Modern C++ example of a type of threading.
+**Threads** is a Modern C++ example of Asynchronous Threading. I've used it a lot with 'machines' and external processes.
