@@ -44,14 +44,14 @@ void coutMsg( ThreadData& data ) {	// because std::stringstream cannot be atomic
 void TaskOne( ThreadData& data ) {
 	data.state = State::Started;
 	const auto start = std::chrono::high_resolution_clock::now();       // "raw" native code
-	std::this_thread::sleep_for(2000ms);
+	std::this_thread::sleep_for( 2000ms );
 
 	const auto mid = std::chrono::high_resolution_clock::now();         // "raw" native code
     const std::chrono::duration<double, std::milli> middiff = mid - start;// "raw" native code
 	data.msg << "TaskOne 50 Percent at " << middiff.count() << "ms\n";
 	data.state = State::Milestone;
 
-	std::this_thread::sleep_for(2000ms);
+	std::this_thread::sleep_for( 2000ms );
 	//const auto end = std::chrono::high_resolution_clock::now();
     const auto end = Clock::now();  // use typedef
 
@@ -64,22 +64,16 @@ void TaskOne( ThreadData& data ) {
 //worker thread / task
 void TaskTwo( ThreadData& data ) {
 	data.state = State::Started;
-	// const auto start = std::chrono::high_resolution_clock::now();
-    const auto start = Clock::now(); // typedef
+	const auto start = Clock::now();    // typedef
 	std::this_thread::sleep_for(1000ms);
-
-	//const auto mid = std::chrono::high_resolution_clock::now();
-    const auto mid = Clock::now();  // typedef
-	//const std::chrono::duration<double, std::milli> middiff = mid - start;
-    runtime middiff = mid - start;
+    const auto mid = Clock::now();      // typedef
+    runtime middiff = mid - start;      // typedef
 	data.msg << "TaskTwo 50 Percent at " << middiff.count() << "ms\n";
 	data.state = State::Milestone;
 
 	std::this_thread::sleep_for(1000ms);
-	//const auto end = std::chrono::high_resolution_clock::now();
-    const auto end = Clock::now();  // typedef
-	//const std::chrono::duration<double, std::milli> diff = end - start;
-runtime diff = end - start;
+	    const auto end = Clock::now();  // typedef
+	runtime diff = end - start;         // typedef
 	data.elapsed = diff.count();
 	data.state = State::Done;
 }
