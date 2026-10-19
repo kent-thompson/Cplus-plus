@@ -1,10 +1,11 @@
 CXX := g++
 CXXFLAGS = -std=c++17 -MD -g -O0 -Wall -Werror -Wextra -pedantic -fsanitize=address
 LDFLAGS =
-TARGET = RunMe
+TARGET = plotExe
 SRCS   = main.cpp
 OBJECTS = $(SRCS:.cpp=.o)
-DEPS = $(SRCS:.cpp=.depends)
+DEPS = $(SRCS:.cpp=main.d)
+# DEPS = $(SRCS:.cpp=.depends)
 
 all: $(TARGET)
 
@@ -18,6 +19,6 @@ $(TARGET): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $< > $@
 
 clean:
-	rm -f $(OBJECTS) $(DEPS) $(TARGET) *.d *.out RunMe
+	rm -f $(OBJECTS) $(DEPS) $(TARGET) *.d *.out plotExe
 
 -include $(DEPS)

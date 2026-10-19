@@ -12,15 +12,19 @@
 class ParkingSpot
 {
 private:
-    std::shared_ptr<Vehicle> mpVehicle;
     ushort spotNbr;
-    //vehicleType type; 
+    std::shared_ptr<Vehicle> mpVehicle;
 
 public:
     ParkingSpot( std::shared_ptr<Vehicle> pv ) {
         mpVehicle = std::move( pv );
     }
     ~ParkingSpot() {};
+
+    bool operator < ( ParkingSpot& ps ) const {
+        return ( spotNbr < ps.getSpotNbr() );
+    }
+
 
     inline ushort getSpotNbr() { return spotNbr; }
     inline vehicleType getVehicleType() { return mpVehicle->getType(); }
@@ -126,6 +130,8 @@ public:
         ushort usedSpots = calcSpotsMetrics();
         if( pv->getSpotsNeeded() + usedSpots <= MAX_SPOTS ) {
             ParkingSpot sp( pv ); 
+        // find first avaiable spot with enough space
+
             sp.setSpot( ++usedSpots );
             spots.push_back( sp );
             return true;
@@ -173,6 +179,14 @@ public:
         std::cout << "|-----------------------" << '\n';
         std::cout << std::endl;
     }
+
+    void printSpots() {
+            for( auto i : spots ) {
+            std::cout << "Spot " << i.getSpotNbr() << " has a " << i.getLabel() << '\n';
+        }
+
+    }
+
 }; //ParkingLot
 
 #endif
