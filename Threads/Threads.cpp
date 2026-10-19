@@ -1,6 +1,6 @@
 //============================================================================
 // Name        : ThreadTest.cpp
-// Author      : Copyright (c) 2024 Kent Thompson
+// Author      : Copyright (c) 2026 Kent Thompson
 // Version     :
 // Description : shows Truly asynchronous threads working as they would be if running/monitoring on machines
 //				 or separate processes that are not synchronous
@@ -23,6 +23,10 @@ enum struct State { Error = -1, None, Ready, Paused, Started, Running, Milestone
 std::mutex gLock;
 int gTCounter = 0;			// thread counter
 
+// shorten these beasts
+typedef const std::chrono::duration<double, std::milli> runtime;
+typedef std::chrono::high_resolution_clock Clock;
+
 struct ThreadData {
     std::atomic<std::thread::id> Id;
 	std::atomic<State> state;
@@ -39,17 +43,20 @@ void coutMsg( ThreadData& data ) {	// because std::stringstream cannot be atomic
 //-- worker threads / tasks --
 void TaskOne( ThreadData& data ) {
 	data.state = State::Started;
-	const auto start = std::chrono::high_resolution_clock::now();
+	const auto start = std::chrono::high_resolution_clock::now();       // "raw" native code
 	std::this_thread::sleep_for(2000ms);
 
-	const auto mid = std::chrono::high_resolution_clock::now();
-	const std::chrono::duration<double, std::milli> middiff = mid - start;
+	const auto mid = std::chrono::high_resolution_clock::now();         // "raw" native code
+    const std::chrono::duration<double, std::milli> middiff = mid - start;// "raw" native code
 	data.msg << "TaskOne 50 Percent at " << middiff.count() << "ms\n";
 	data.state = State::Milestone;
 
 	std::this_thread::sleep_for(2000ms);
-	const auto end = std::chrono::high_resolution_clock::now();
-	const std::chrono::duration<double, std::milli> diff = end - start;
+	//const auto end = std::chrono::high_resolution_clock::now();
+    const auto end = Clock::now();  // use typedef
+
+	// const std::chrono::duration<double, std::milli> diff = end - start;
+    runtime diff = end - start;     // use typedef
 	data.elapsed = diff.count();
 	data.state = State::Done;
  }
@@ -57,17 +64,22 @@ void TaskOne( ThreadData& data ) {
 //worker thread / task
 void TaskTwo( ThreadData& data ) {
 	data.state = State::Started;
-	const auto start = std::chrono::high_resolution_clock::now();
+	// const auto start = std::chrono::high_resolution_clock::now();
+    const auto start = Clock::now(); // typedef
 	std::this_thread::sleep_for(1000ms);
 
-	const auto mid = std::chrono::high_resolution_clock::now();
-	const std::chrono::duration<double, std::milli> middiff = mid - start;
+	//const auto mid = std::chrono::high_resolution_clock::now();
+    const auto mid = Clock::now();  // typedef
+	//const std::chrono::duration<double, std::milli> middiff = mid - start;
+    runtime middiff = mid - start;
 	data.msg << "TaskTwo 50 Percent at " << middiff.count() << "ms\n";
 	data.state = State::Milestone;
 
 	std::this_thread::sleep_for(1000ms);
-	const auto end = std::chrono::high_resolution_clock::now();
-	const std::chrono::duration<double, std::milli> diff = end - start;
+	//const auto end = std::chrono::high_resolution_clock::now();
+    const auto end = Clock::now();  // typedef
+	//const std::chrono::duration<double, std::milli> diff = end - start;
+runtime diff = end - start;
 	data.elapsed = diff.count();
 	data.state = State::Done;
 }
@@ -119,6 +131,7 @@ int main()
 				break;
 			}
 
+            // second task
 			switch( twoData.state ) {
 			case State::Started:
 				++gTCounter;

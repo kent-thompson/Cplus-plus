@@ -1,6 +1,6 @@
 CC := g++
 CFLAGS = -std=c++17 -g -O0 -Wall -Werror -Wextra -pedantic -fsanitize=thread
-TARGET = maintest
+TARGET = threads
 SRCS   = Threads.cpp
 OBJECTS = $(SRCS:.cpp=.o)
 DEPS = $(SRCS:.cpp=.depends)
